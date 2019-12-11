@@ -3,13 +3,11 @@ package Display;
 import Minigame2048.Minigame2048;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
 import javafx.scene.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.*;
 import javafx.util.Duration;
 
 public class GameDisplay {
@@ -19,7 +17,7 @@ public class GameDisplay {
     private Pane pane;
     private Scene scene;
     private Minigame2048 minigame;
-    private Text[][] board;
+    private Label[][] board;
 
     private double tileWidth;
     private double tileHeight;
@@ -29,7 +27,7 @@ public class GameDisplay {
         this.width = width;
         this.height = height;
         this.pane = new Pane();
-        this.board = new Text[this.minigame.getSize()][this.minigame.getSize()];
+        this.board = new Label[this.minigame.getSize()][this.minigame.getSize()];
 
         this.scene = new Scene(this.pane, this.width, this.height);
 
@@ -50,11 +48,11 @@ public class GameDisplay {
     }
 
     public void draw() {
-        for (Text[] i : this.board) {
+        for (Label[] i : this.board) {
             this.pane.getChildren().removeAll(i);
         }
         boardUpdate();
-        for (Text[] i : this.board) {
+        for (Label[] i : this.board) {
             this.pane.getChildren().addAll(i);
         }
     }
@@ -63,17 +61,17 @@ public class GameDisplay {
         for (int i = 0; i < this.minigame.getSize(); i++) {
             for (int j = 0; j < this.minigame.getSize(); j++) {
                 if (this.minigame.getTile(i, j) == 0) {
-                    this.board[i][j] = new Text("");
+                    this.board[i][j] = new Label("");
                 } else {
-                    this.board[i][j] = new Text("" + this.minigame.getTile(i, j));
+                    this.board[i][j] = new Label("" + this.minigame.getTile(i, j));
                 }
-                this.board[i][j].setTextAlignment(TextAlignment.CENTER);
+                this.board[i][j].setAlignment(Pos.CENTER);
+                this.board[i][j].setStyle("-fx-border-color: black;");
                 this.board[i][j].setFont(new Font(20));
-                this.board[i][j].setSelectionFill(Paint.valueOf("RED"));
-                this.board[i][j].setX(j * this.tileWidth + this.tileWidth * 1.5);
-                this.board[i][j].setY(i * this.tileHeight + this.tileHeight * 1.5);
-                this.board[i][j].prefWidth(this.tileWidth);
-                this.board[i][j].prefHeight(this.tileHeight);
+                this.board[i][j].setLayoutX(j * this.tileWidth + this.tileWidth);
+                this.board[i][j].setLayoutY(i * this.tileHeight + this.tileHeight);
+                this.board[i][j].setPrefWidth(this.tileWidth);
+                this.board[i][j].setPrefHeight(this.tileHeight);
             }
         }
     }
